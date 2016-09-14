@@ -1,0 +1,65 @@
+
+.inactive {
+  //float: left;
+  cursor: default;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: transparent!important;
+
+  &:hover {
+    border: 0;
+  }
+
+  a {
+    color: transparent!important;
+  }
+  //image normal
+  .offerUnit_imgWrap_sdPlusInc_rel img.b-lazy {
+      opacity: 1 !important;
+      background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzAgMzAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNERUREREQiIGQ9Ik02LjgsMjcuNGMwLjMsMC41LDAuNiwwLjcsMS4yLDAuN2gxMS4xYzAuNiwwLDAuOS0wLjIsMS4zLTAuN2w4LjQtMTAuOGMwLjItMC4yLDAtMC42LTAuMy0wLjZIMTUuMWMtMC42LDAtMC45LTAuMi0xLjItMC43TDcuMSwzLjVDNi45LDMuMiw2LjUsMy4zLDYuNCwzLjZMMS4yLDE2LjJjLTAuMiwwLjYtMC4yLDAuOSwwLjEsMS41TDYuOCwyNy40eiBNMjAuOCwxMy40YzAuMywwLjUsMC42LDAuNywxLjIsMC43aDYuNWMwLjMsMCwwLjYtMC40LDAuNC0wLjdMMjIuNywyLjZjLTAuMy0wLjUtMC42LTAuNy0xLjItMC43SDkuMWMtMC4zLDAtMC42LDAuNC0wLjQsMC43bDMuMiw1LjZjMC4zLDAuNSwwLjYsMC43LDEuMiwwLjdoNS4xTDIwLjgsMTMuNHoiLz48L3N2Zz4=) 50% 50% no-repeat transparent;
+      width: 130px;
+      height: 152px;
+      background-size: 50%;
+
+      @include breakpoint(1024px){
+        width: 166px;
+        height: 194px;
+      }
+  }
+
+  //discount_dom
+  .offerUnit_discountWrap {
+    margin-bottom: 0.3em !important;
+  }
+
+  .offerUnit_discount {
+    background: $loadercol;
+    color: transparent;
+    border: 0;
+  }
+
+  //title && rating && price & tagline
+  .offerUnit_title, .offerUnit_ratingWrap, .offerUnit_priceTaglineWrap_rel, span.offerUnit_priceWrapAll {
+    background: $loadercol;
+    color: transparent;
+    height: 16px !important;
+    padding: 0;
+    //margin-bottom: 0.6em;
+    float: left;
+    margin: 0.3em 0 !important;
+  }
+
+  .offerUnit_ratingWrap {
+    //margin-top: 0.1em;
+  }
+
+  .offerUnit_rating_rel, .numberRevsX, span.offerUnit_displayPrice {
+    opacity: 0;
+  }
+
+}
+
+li.inactive  {
+  max-width: 260px;
+}

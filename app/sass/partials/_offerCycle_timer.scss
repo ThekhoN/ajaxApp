@@ -1,0 +1,45 @@
+.timerX99_UnitWrap_rel {
+  position: relative;
+  @extend .contRofl_clr;
+  overflow:hidden;
+  height: 24px;
+  font-size: 12px;
+  line-height:2;
+  /* width constrained to 300px for mobile. change as required */
+  /* the height = 2 * fontSize since lineHeight is 2 */
+  @include breakpoint(480px){
+    height: 28px;
+    font-size: 14px;
+  }
+
+
+}
+
+.timerX99_Wrapper {
+  width: 69px;
+  float: left;
+  text-align:left;
+  padding-left: 1.6%;
+  box-sizing: border-box;
+  display:none;
+  color: red;
+  font-weight: bold;
+  span {
+    display: inline;
+      letter-spacing:1px;
+  }
+
+  @include breakpoint(768px){
+    width: 69px;
+  }
+}
+
+.timerX99_label {
+  box-sizing: border-box;
+  float: left;
+  padding-right: 0.3%;
+}
+
+span.dayV_timerX, span.dayL_timerX {
+  display:none;
+}

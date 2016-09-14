@@ -1,0 +1,34 @@
+.innerCard_sectionXWrap {
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+
+  @include breakpoint(768px){
+    max-width: 1280px;
+  }
+
+  @include breakpoint(1500px){
+    max-width: 1664px;
+  }
+}
+
+.blueStrip_bg:after, h2 span.decorX:after {
+  display: none;
+}
+
+.blueStrip_bg {
+  background: #d6edfb;
+}
+
+.whiteCard_bg {
+  background: #ffffff;
+}
+
+.offerCont_wrap {
+  @include breakpoint(1024px){
+    margin-top: $verticalOffset;
+  }
+}
+.setBottomOffset {
+  margin-bottom:0;
+}

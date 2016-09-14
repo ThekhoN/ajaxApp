@@ -1,0 +1,60 @@
+
+.contRofl_clr {
+    width: 100%;
+    float: left;
+    @include clearfix;
+}
+
+.offerUnit_shadowStyle {
+    box-shadow: 0 0 9px #e5e5e5;
+}
+
+.absWrapX {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom:0;
+}
+
+%flexImg99 {
+    max-width: 100%;
+    height: auto;
+    display: inline;
+}
+
+.clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.wrapCenterCont {
+    text-align: center;
+    height: 100%;
+    &:before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+}
+
+.centeredContX {
+    display: inline-block;
+    vertical-align: middle;
+    width: 96%;
+    ///it is FUCKING important to define the width do not exceed 98% Width Nigga
+}
+
+.hoverActiv8_borderColor {
+  box-sizing: border-box;
+  border: 1px solid $separator;
+
+  @include breakpoint(768px){
+    &:hover {
+      border: 1px solid $active;
+    }
+  }
+}

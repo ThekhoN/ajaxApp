@@ -1,0 +1,132 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+
+@import "susy";
+@import "breakpoint";
+@import "bourbon/bourbon";
+@import "scut";
+
+@import 'partials/resets';
+@import 'partials/vars';
+@import 'partials/utilities';
+@import 'partials/headerBanner';
+@import 'partials/sectionXWrappers';
+@import 'partials/captions';
+@import 'partials/defaultUnitOffer';
+@import 'partials/responsiveFontWidth';
+@import 'partials/loaderInactive';
+@import 'partials/newFormatWrappers';
+@import 'partials/socialShare';
+@import 'partials/offerUnit_vwAll';
+@import 'partials/footerBannerX99';
+
+/// * * * quickLinks
+@import 'partials/quickLinkOffers';
+
+/// * * * electronicsSale
+@import 'partials/electronicsSaleConditionals';
+@import 'partials/upcomingOffers';
+
+/// * * * timerStyles
+@import 'partials/timerAllStyles';
+//@import 'partials/timerDodSuperDeal';
+
+/// * * * DOD
+//@import 'partials/dod_SuperDeals';
+//@import 'partials/dod_Wrappers';
+
+
+
+$susy:( container:1920,
+columns:12,
+gutters:0.096,
+gutter-position:after,
+math:fluid,
+//debug: (image: show),
+output:float // For Debugging - mainWrapper should not have a bg Color
+);
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#mainWrapperX_newX999 {
+    @include container(1920px);
+    font-size: 1em;
+    line-height: 1;
+    font-size: 14px;
+    font-family: $sansSerifFont;
+    position: relative;
+    color: $textCol;
+    background: $wrapperBG;
+
+    @include breakpoint(768px){
+        font-size: 16px;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a img {
+        border: none;
+    }
+    a {
+        outline: 0;
+        text-decoration: none;
+    }
+    img.map,
+    map area {
+        outline: none;
+    }
+}
+
+
+//////////////Reset Icon-fonts///////////////////
+/////////////Snapdeal UI RESETS///////////////
+.navFixedSmall {
+    position: static !important;
+    /*this resets FIXED widget to static position*/
+}
+
+.gutterPromotionHiddenOnOtherPages {
+    display: none !important;
+}
+
+.bottomFreezeDiv,
+#breadCrumbWrapper,
+#rightLangWrapper {
+    display: none !important;
+    z-index: -1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.header-fixed,
+.hd-rvmp.header-fixed,
+#headerTop,
+#headerFixed {
+    position: static !important;
+}
+
+#content_wrapper {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+/*weird fixed nav bar*/
+
+.fixed-header-slide {
+    min-height: 0px !important;
+}
+
+#dock.dock {
+    position: static !important;
+    top: -100px;
+    display: none;
+}
+/* ////////////////// ENDERINO RESETERINO ///////////////////// */
