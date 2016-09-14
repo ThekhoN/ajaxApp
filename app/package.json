@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "blazy": "^1.6.2",
+    "es6-promise": "^3.3.0",
     "fastdom": "^1.0.3"
   }
 }
