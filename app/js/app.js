@@ -1178,14 +1178,32 @@ var SetHTML = (function(){
   function setHTML_offerUnit_priceTaglineWrap_rel(item) {
     var offerUnit_priceTaglineWrap_rel = '<div class="offerUnit_priceTaglineWrap_rel">';
     var tagLineFragments = '<div class="offerUnit_taglineWrap"><div class="offerUnit_tagline">' + item.tagLine + '</div></div>';
-    var priceContXFragments = '<div class="offerUnit_priceWrap"><span class="offerUnit_priceWrapAll">Rs.' + '<span class="offerUnit_price">' + item._price + '</span>&nbsp; &nbsp;</span>' + '<span class="offerUnit_displayPrice"><span>Rs.&nbsp;</span>' + item._displayPrice + '</span>' + '</div>';
+    /*var priceContXFragments = '<div class="offerUnit_priceWrap"><span class="offerUnit_priceWrapAll">Rs.' + '<span class="offerUnit_price">' + item._price + '</span>&nbsp; &nbsp;</span>' + '<span class="offerUnit_displayPrice"><span>Rs.&nbsp;</span>' + item._displayPrice + '</span>' + '</div>';*/
+    var priceContXFragments =
+'<div class="offerUnit_priceWrap"><span class="offerUnit_priceWrapAll"><span class="offerUnit_price">Rs.&nbsp;' + item._price + '</span>&nbsp; &nbsp;' +
+		'<span class="offerUnit_displayPrice">Rs.&nbsp;' +
+			item._displayPrice +
+		'</span></span>' +
+'</div>';
+
+    var displayPriceOnlyFragments =
+  '<div class="offerUnit_priceWrap"><span class="offerUnit_priceWrapAll"><span class="offerUnit_displayPrice">Rs.&nbsp;' +
+  			item._displayPrice +
+  		'</span></span>' +
+  '</div>';
 
     function priceOrTagline_dom(item) {
         if (item.tagLine) {
             return (offerUnit_priceTaglineWrap_rel + tagLineFragments + '</div>');
         }
         if (item._price || item._displayPrice) {
-            return (offerUnit_priceTaglineWrap_rel + priceContXFragments + '</div>');
+            if(item._price == item._displayPrice){
+              //console.log(item.pogId, ' has same MRP & SP!');
+              return (offerUnit_priceTaglineWrap_rel + displayPriceOnlyFragments + '</div>');
+            }
+            else {
+                return (offerUnit_priceTaglineWrap_rel + priceContXFragments + '</div>');
+            }
         } else {
             return (offerUnit_priceTaglineWrap_rel + '</div>');
         }
