@@ -18,223 +18,16 @@ function polyfill_qSA_SupportQ() {
 polyfill_qSA_SupportQ();
 /* end run polyfill if required */
 
-/* start TimerX99 module and fn */
-var TimerX99 = (function() {
-    var priv8eMX99 = {};
-    priv8eMX99._initCountDown = function(id, endTime, show) {
-        _getRemainingTime = function(endTime) {
-            var t = Date.parse(endTime) - Date.parse(new Date());
-            var seconds = Math.floor((t / 1000) % 60);
-            var minutes = Math.floor((t / 1000 / 60) % 60);
-            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-            var days = Math.floor(t / (1000 * 60 * 60 * 24));
-            return {
-                'total': t,
-                'days': days,
-                'hours': hours,
-                'minutes': minutes,
-                'seconds': seconds
-            };
-        };
-        if (!id || id === null) {
-            console.log('ID not found in DOM!');
-            return;
-        }
-        var timerDomEle = document.getElementById(id);
-        if (show == 'false' || show === false) {
-            timerDomEle.style.display = 'none';
-        } else {
-
-          timerDomEle.style.display = 'block';
-          /* hide timerMainWrapperDOM */
-          //var get_domTargetID = document.getElementById(domTargetID);
-          var this_timerMainWrapperDOM = findParent_firstMatchClassName(timerDomEle, 'timerX99_UnitWrap_rel');
-          if(this_timerMainWrapperDOM !== null){
-            //console.log('this_timerMainWrapperDOM: ', this_timerMainWrapperDOM );
-            this_timerMainWrapperDOM.style.opacity = 1;
-          }
-          /* /hide timerMainWrapperDOM */
-        }
-        var dayV_Wrap = timerDomEle.querySelector('.dayV_timerX');
-        var hrV_Wrap = timerDomEle.querySelector('.hrV_timerX');
-        var minV_Wrap = timerDomEle.querySelector('.minV_timerX');
-        var secV_Wrap = timerDomEle.querySelector('.secV_timerX');
-
-        function updateClock() {
-            var t = _getRemainingTime(endTime);
-            dayV_Wrap.innerHTML = ('0' + t.days).slice(-2);
-            hrV_Wrap.innerHTML = ('0' + t.hours).slice(-2);
-            minV_Wrap.innerHTML = ('0' + t.minutes).slice(-2);
-            secV_Wrap.innerHTML = ('0' + t.seconds).slice(-2);
-            if (t.total <= 0) {
-                clearInterval(timeInterval);
-                if (timerDomEle) {
-                    console.log('clearInterval TimerX99');
-                    timerDomEle.style.display = 'none';
-                } else {
-                    console.log('ID not found in DOM!');
-                }
-                //console.log('timer completed');
-                window.location.reload(true);
-            }
-        }
-        updateClock();
-        var timeInterval = setInterval(updateClock, 1000);
-    };
-    ///* * *public methods
-    var publicMX99 = {};
-    publicMX99.initCountDwnX99 = function(startEnd_TargetID_typeArr) {
-        if (startEnd_TargetID_typeArr instanceof Array) {
-            if (startEnd_TargetID_typeArr.length < 1) {
-                console.log('define settings in arg Array');
-            } else {
-                for (var i = 0, len = startEnd_TargetID_typeArr.length; i < len; i++) {
-                    var this_startEnd = startEnd_TargetID_typeArr[i];
-                    var startDate = this_startEnd[0] + ' GMT+0530';
-                    var endDate = this_startEnd[1] + ' GMT+0530';
-                    var domTargetID = this_startEnd[2];
-                    var callback = this_startEnd[3];
-                    var show = this_startEnd[4];
-                    if (!isValidDate(startDate)) {
-                        console.log('invalid date format, it must be MM/DD/YYYY');
-                        return;
-                    }
-                    if (!isValidDate(endDate)) {
-                        console.log('invalid date format, it must be MM/DD/YYYY');
-                        return;
-                    }
-                    if (callback === null) {
-                        console.log('no callback defined');
-                    }
-                    if (show == 'false' || show === false) {
-                        console.log('hide this timer');
-                    } else if (!show || show.length < 1) {
-                        //console.log('show undefined but show timer anyway');
-                    } else {
-                        console.log('show this timer');
-                    }
-                    var startDate_ms = new Date(startDate);
-                    var endDate_ms = new Date(endDate);
-                    var currDate_ms = new Date();
-                    if (startDate_ms > endDate_ms) {
-                        console.log('error in startDate, startDate is more than end Date');
-                    }
-                    if (startDate_ms < currDate_ms) {
-                        //console.log('startDate: ' + startDate);
-                    }
-                    if (endDate_ms > currDate_ms && currDate_ms >= startDate_ms) {
-                        priv8eMX99._initCountDown(domTargetID, endDate, show);
-                        if (callback) {
-                            if (!isFunction(callback)) {
-                                console.log('callback must be a function expression like this:' + '\n' + 'function myCallback(){ //do something }');
-                                return;
-                            } else {
-                                console.log('running callback:');
-                                callback();
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            console.log('arg must be an Array');
-        }
-    };
-    function isFunction(functionToCheck) {
-        var getType = {};
-        return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-    }
-    function isValidDate(date) {
-        var d = date;
-        var i_fSpace = d.indexOf(' ');
-        var data_str = d.substr(0, i_fSpace);
-        var matches = /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/.exec(data_str);
-        if (matches === null) return false;
-        var d_ = matches[2];
-        var m = matches[1] - 1;
-        var y = matches[3];
-        var composedDate = new Date(y, m, d_);
-        return composedDate.getDate() == d_ && composedDate.getMonth() == m && composedDate.getFullYear() == y;
-    }
-    publicMX99.all_timerOptions_ajax = [];
-    publicMX99.create_all_timerOptions = function (data){
-      data.forEach(function(item){
-      var this_targetTimerID = item.categoryName + '_timer';
-      //categoryNames of TimerOffers MUST include the string 'TimerOffer'
-      //example "liveTimerOffer_01"
-      if(this_targetTimerID.indexOf('TimerOffer') < 0){
-        //console.log('no timerOffers found!');
-        return;
-      }
-      if(
-          item.startTimeHrs === 0 &&
-          item.startTimeMin === 0 &&
-          item.endTimeHrs === 23 &&
-          item.endTimeMin === 59
-        ){
-          console.log("don't run createTimerOptions, return");
-          return;
-        }
-
-      var this_startTimeHrs = ('0' + item.startTimeHrs).slice(-2);
-      var this_startTimeMin = ('0' + item.startTimeMin).slice(-2);
-      var this_endTimeHrs = ('0' + item.endTimeHrs).slice(-2);
-      var this_endTimeMin = ('0' + item.endTimeMin).slice(-2);
-      var this_item_startTime = FullDate.today_mmddyyyy + ' ' + this_startTimeHrs + ':' + this_startTimeMin + ':00';
-      var this_item_endTime = FullDate.today_mmddyyyy + ' ' + this_endTimeHrs + ':' + this_endTimeMin + ':00';
-      var newArr_option = [];
-      newArr_option.push(this_item_startTime, this_item_endTime, this_targetTimerID );
-      if(!TimerX99.all_timerOptions_ajax || !TimerX99){
-        console.log('TimerX99 Module missing!');
-      }
-      TimerX99.all_timerOptions_ajax.push(newArr_option);
-      //console.log('allTimerOptions: ', newArr_option);
-    });
-  };
-    return publicMX99;
-    //helper
-    function findParent_firstMatchClassName(el, className) {
-      while (el.parentNode) {
-          el = el.parentNode;
-          if (el.className === className)
-                return el;
-      }
-      return null;
-    }
-})();
-//TimerX99.initCountDwnX99(startEnd_TargetID_typeArr);
-var FullDate= (function(){
-  var public = {};
-  var _d = new Date();
-  var date_today= _d.getDate();
-      data_today = ('0' + date_today).slice(-2);
-  var month_today = _d.getMonth() + 1;
-      month_today = ('0' + month_today).slice(-2);
-  var year_today = '2016';
-  public.today_mmddyyyy = month_today + '/' + date_today + '/' + year_today;
-  //expose FullDate.today_mmddyyyy
-  return public;
-})();
-/* end TimerX99 module and fn */
-
+//Our dependencies
 var promise = require('es6-promise');
-var AjaxStart = require('./modules/promiseTest.js');
+var AjaxStart = require('./modules/AjaxStart.js');
 var fastdom = require('fastdom');
 var Blazy = require('Blazy');
+var MobPlatform_M = require('./modules/MobPlatform_M');
 //reqd
-var MobPlatform_M = (function(){
-    var public = {};
-    public.mobileSite_running = false;
-    public.mobileSite_TrueX999 = function(){
-        var currURLX = window.location;
-        var mob_preURL_str = 'm.snapdeal.com';
-        currURLX = String(currURLX);
-        public.mobileSite_running = (currURLX.indexOf(mob_preURL_str) > 0)? true: false;
-        return public.mobileSite_running;
-    };
-    return public;
-})();
-//reqd
+
+var socialShareX_Module = require('./modules/socialShareX_Module');
+
 var Query_dom_categoryNames = (function(){
   var public = {};
   public.parentWrapper_id = 'mainWrapperX_newX999';
@@ -271,45 +64,6 @@ var AjaxPageApp = (function(){
     //check if mobileSite running
     var mobileSite_TrueX999_var = MobPlatform_M.mobileSite_TrueX999();
         console.log('mobileSite_running: ' + mobileSite_TrueX999_var);
-      //default options for filterBy:'categoryNames' & setToEachID:true
-      /*var default_opts = {
-        url: '',//always define
-        parentWrapper_id: Query_dom_categoryNames.parentWrapper_id,//always define
-        filterBy:'categoryNames',//'categoryNames' or 'price'
-        setToEachID: true,//set to ids in dom ~ matching with categoryNames
-        sortOrder: null,//categoryNames n their sequence: setToEachID:false
-        priceRange_domID: null,
-        TimerOffer: false
-      };*/
-
-      //default options setToParentWrapper for filterBy:'categoryNames' & setToEachID:false ~ setToParentWrapper MUST define sortOrder
-      /*var default_opts = {
-        url: '',//always define
-        parentWrapper_id: Query_dom_categoryNames.parentWrapper_id,//always define
-        filterBy:'categoryNames',//'categoryNames' or 'price'
-        setToEachID: false,//set to ids in dom ~ matching with categoryNames
-        sortOrder: ['a299', 'a499', 'a799', 'a1299', 'a1999', 'a2999'],//categoryNames n their sequence: setToEachID:false
-        priceRange_domID: null
-      };*/
-
-      //default options for filterBy:'price' & setToEachID:true ~ predefined DOM with ids matching the categoryNames
-      /*var default_opts = {
-        url: '',  //always define
-        parentWrapper_id: Query_dom_categoryNames.parentWrapper_id,//always define
-        filterBy:'price',//'categoryNames' or 'price'
-        setToEachID: true,//set to ids in dom ~ matching with categoryNames
-        sortOrder: ['a299', 'a499', 'a799', 'a1299', 'a1999', 'a2999'],//categoryNames n their sequence: setToEachID:false
-        priceRange_domID: [
-                          //[min_price, max_price, id_dom],
-                            [0, 299, 'a299'],
-                            [299, 499, 'a499'],
-                            [499, 799, 'a799'],
-                            [799, 1299, 'a1299'],
-                            [1299, 1999, 'a1999'],
-                            [1999, 2999, 'a2999']
-                          ],
-        TimerOffer: false
-      };*/
 
       //default options for filterBy:'categoryNames' & setToEachID:true
       var default_opts = {
@@ -349,8 +103,15 @@ var AjaxPageApp = (function(){
             priceRange_domID = options.priceRange_domID ? options.priceRange_domID:default_opts.priceRange_domID;
             TimerOffer = options.TimerOffer ? options.TimerOffer:default_opts.TimerOffer;
 
+        //if TimerOffer == true
         if(TimerOffer !== false) {
-          console.log('TimerOffers: true');
+          ///NoTimer ~ comment out if Timer is no reqd
+            window.TimerX99 = require('./modules/TimerX99');
+            window.FullDate = require('./modules/FullDate');
+
+            if(!window.TimerX99 || window.TimerX99 === null){
+                console.error('TimerOffers: true, require TimerX99 & FullDate Modules');
+            }
         }
         //E X P O S I N G   priceRange_domID
         GetInner_.priceRange_domID_setfn(priceRange_domID);
@@ -477,7 +238,7 @@ var AjaxPageApp = (function(){
         }
         else {
 
-          console.log('url first: ', GetInner_.firstURL);
+          //console.log('url first: ', GetInner_.firstURL);
 
           // if not local
           if(GetInner_.firstURL.indexOf('.json') < 0)
@@ -535,12 +296,19 @@ var AjaxPageApp = (function(){
                     //initCountDwn Timer if TimerOffer True
                     if(TimerOffer !== false) {
                       TimerX99.initCountDwnX99(TimerX99.all_timerOptions_ajax);
-                      console.log('run timer please');
+                      //console.log('run timer please');
 
                       //incase we need to delegate click
                       DelegateClick_timerOfferUnit();
-                      console.log('run DelegateClick_timerOfferUnit');
+                      //console.log('run DelegateClick_timerOfferUnit');
                     }
+
+                      //if dodSuperDealUnit_ev found
+                      if(document.getElementsByClassName('dodSuperDealUnit_ev').length > 0){
+                          //console.log('dodSuperDealUnit found...run DelegateClick_dodSuperDeal!');
+                          DelegateClick_dodSuperDeal();
+                      }
+
 
 
                   }
@@ -663,27 +431,50 @@ var AjaxPageApp = (function(){
 
     /// * * * assign click events - on click unit find a and update window.location
     function DelegateClick_timerOfferUnit(){
-    var offerUnit = document.getElementsByClassName('timerOfferUnit');
-      for(var i=0; i < offerUnit.length; i++){
-        offerUnit[i].addEventListener('click', function(e){
-          //console.log('offerUnit clicked!');
-          var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-          var this_offerUnit = this;
-          var this_liveTimerOffer_href = this_offerUnit.children[0].children[0].children[0].getAttribute('href');
-          //console.log(this_liveTimerOffer_href);
-          if(!this_liveTimerOffer_href){
-            console.log('a tag liveTimerOffer_href not found, return');
-            return;
-          }
-          if (windowWidth > 768) {
-              window.open(this_liveTimerOffer_href, '_blank');
-          } else {
-              window.location.href = this_liveTimerOffer_href;
-          }
-          e.preventDefault();
-      });
+      var offerUnit = document.getElementsByClassName('timerOfferUnit');
+        for(var i=0; i < offerUnit.length; i++){
+          offerUnit[i].addEventListener('click', function(e){
+            //console.log('offerUnit clicked!');
+            var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var this_offerUnit = this;
+            var this_liveTimerOffer_href = this_offerUnit.children[0].children[0].children[0].getAttribute('href');
+            //console.log(this_liveTimerOffer_href);
+            if(!this_liveTimerOffer_href){
+              console.log('a tag liveTimerOffer_href not found, return');
+              return;
+            }
+            if (windowWidth > 768) {
+                window.open(this_liveTimerOffer_href, '_blank');
+            } else {
+                window.location.href = this_liveTimerOffer_href;
+            }
+            e.preventDefault();
+        });
+      }
     }
-  }
+  /// * * * assign click events - on click dodSuperDeal find a and update window.location
+    function DelegateClick_dodSuperDeal(){
+      var offerUnit = document.getElementsByClassName('dodSuperDealUnit_ev');
+        for(var i=0; i < offerUnit.length; i++){
+          offerUnit[i].addEventListener('click', function(e){
+            //console.log('offerUnit clicked!');
+            var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var this_offerUnit = this;
+            var this_liveTimerOffer_href = this_offerUnit.children[0].children[0].children[0].getAttribute('href');
+            //console.log(this_liveTimerOffer_href);
+            if(!this_liveTimerOffer_href){
+              console.log('dodSuperDealUnit_ev ahref  not found, return');
+              return;
+            }
+            if (windowWidth > 768) {
+                window.open(this_liveTimerOffer_href, '_blank');
+            } else {
+                window.location.href = this_liveTimerOffer_href;
+            }
+            e.preventDefault();
+        });
+      }
+    }
 
 })();
 
@@ -691,202 +482,6 @@ var AjaxPageApp = (function(){
 var SetHTML = (function(){
   var public = {};
   var finalHTMLContent = []; //append all TOGETHER in the end
-
-  //SetHTML.init_setToMainWrapper
-  /*
-  var default_setToMainWrapper_opts = {
-      htmlContent_multi_arr: [],
-      wrapper_id: 'mainWrapperX_newX999'
-  };
-
-  public.init_setToMainWrapper = function(opts) {
-    console.log('init_setToMainWrapper running!');
-    if(!opts){
-        opts = {};
-    }
-
-      var htmlContent_multi_arr = opts.htmlContent_multi_arr ? opts.htmlContent_multi_arr : default_setToMainWrapper_opts.htmlContent_multi_arr;
-      var wrapper_id = opts.wrapper_id ? opts.wrapper_id : default_setToMainWrapper_opts.wrapper_id;
-
-      var wrapper_dom = document.getElementById(wrapper_id);
-
-      htmlContent_multi_arr.forEach(function(this_innerArr, index, array) {
-          //console.log('categoryName: ' );
-          if(!this_innerArr[0]){
-            console.log('this_innerArr[] '+index + ' is undefined || not found in data');
-            return false;
-          }
-          //console.log(this_innerArr[0].categoryName);
-          var categoryName = this_innerArr[0].categoryName;
-          this_innerArr[0].categoryName = this_innerArr[0].categoryName ? this_innerArr[0].categoryName : 'undefined';
-          //console.log('categoryName: ' + categoryName);
-          var ul_htmlContent = '<ul id="' + categoryName + '">';
-          var close_ul_htmlContent = '</ul>';
-
-          var li_htmlContent = this_innerArr.map(function(item) {
-              var pogId = item.pogId;
-              var vendorCode = item._vendorCode;
-              var offers = item._offers;
-              var catalogId;
-              var supc;
-              if(!offers) {
-                if(!catalogId){
-                  catalogId = 'undefined';
-                }
-                if(!supc){
-                  supc = 'undefined';
-                }
-              }
-              else {
-                catalogId = offers.map(function(e){return e.id;})[0];
-                supc = offers.map(function(e){return e.supcs;})[0];
-              }
-              return (
-                '<li class="OffersContentBoxLi"' +
-                             'data-pogId="' + pogId + '"' +
-                             'data-catalogid="' + catalogId + '"' +
-                             'data-supc="' + supc + '"' +
-                             'data-vendorcode="' + vendorCode + '"' + '>' +
-                             set_SoldOUt_ModuleX99(item) +
-                             set_OffersContTxt_Wrapper() +
-                              set_aLink_ModuleX99(item) +
-                                set_OfferImg_blazy(item) +
-                                set_OffersContTxt_Wrapper() +
-                                  set_Discount_ModuleX99(item) +
-                                  set_OfferTitle_csv(item) +
-                                  set_StarRatings_and_Reviews_ModuleX99(item) +
-                                  set_Price_and_Tagline_ModuleX99(item) +
-                                setClosing_OffersContTxt_Wrapper() +
-                              setClosing_aLink_ModuleX99(item) +
-                            setClosing_OffersContTxt_Wrapper() +
-                             '</li>'
-              );
-          }).join('');
-          var unit_htmlContent = setHTML_sectionX_unitStart(categoryName) + ul_htmlContent + li_htmlContent + close_ul_htmlContent + setHTML_sectionX_unitClose();
-          finalHTMLContent.push(unit_htmlContent);
-
-            //setHTML_sectionX_unitStart
-            function setHTML_sectionX_unitClose(){
-              return ('</div>'+'</div>'+'</div>');
-            }
-
-            function setHTML_sectionX_unitStart(categoryName){
-            	return ('<div class="sectionX" >'+
-            			'<div class="captionWrap_bgX99">'+
-            				'<div class="captionX99">'+
-            					'<h2>'+
-            						'<span class="decorX">' + categoryName + '</span>'+
-            					'</h2>'+
-            				'</div>'+
-            			'</div>'+
-            			'<div class="offerCont_wrap">'+
-            				'<div class="width_ContstraX relFontX resp_LiX">');
-            }
-      });
-      //setting the html to dom
-      finalHTMLContent = finalHTMLContent.join('');
-      fastdom.mutate(function() {
-        wrapper_dom.innerHTML = finalHTMLContent;
-        //init blazy
-        var blazy = new Blazy({
-          loadInvisible: true
-        });
-      });
-  };
-  // /SetHTML.init_setToMainWrapper
-  */
-
-  /*
-  var default_setToEachID_filterBy_price_opts = {
-      htmlContent_multi_arr: [],
-      wrapper_id: 'mainWrapperX_newX999',
-  };
-
-  public.init_setToEachID_filterBy_price = function(opts) {
-    if(!opts){
-        opts = {};
-    }
-    var htmlContent_multi_arr = opts.htmlContent_multi_arr ? opts.htmlContent_multi_arr : default_setToEachID_opts.htmlContent_multi_arr;
-    console.log('init_setToEachID_filterBy_price running!');
-    //console.log('GetInner_.priceRange_domID: ', GetInner_.priceRange_domID);
-    var priceRange_domID = GetInner_.priceRange_domID;
-    //console.log('inside init_setToEachID_filterBy_price priceRange_domID: ', priceRange_domID);
-
-
-    console.log('finalHTMLContent len: ', finalHTMLContent.length);
-    for(var i=0; i< priceRange_domID.length; i++){
-      finalHTMLContent.push([]);
-    }
-    console.log('updated finalHTMLContent len: ', finalHTMLContent.length);
-
-    htmlContent_multi_arr.forEach(function(this_innerArr, index, array) {
-        console.log('this_innerArr: ', this_innerArr );
-        if(!this_innerArr[0]){
-          console.log('this_innerArr[] '+index + ' is undefined || not found in data');
-          return false;
-        }
-        var categoryName = this_innerArr[0].categoryName;
-        console.log('categoryName: ', categoryName);
-        this_innerArr[0].categoryName = this_innerArr[0].categoryName ? this_innerArr[0].categoryName : 'undefined';
-
-        var li_htmlContent = this_innerArr.map(function(item) {
-            var pogId = item.pogId;
-            var vendorCode = item._vendorCode;
-            var offers = item._offers;
-            var catalogId;
-            var supc;
-            if(!offers) {
-              if(!catalogId){
-                catalogId = 'undefined';
-              }
-              if(!supc){
-                supc = 'undefined';
-              }
-            }
-            else {
-              catalogId = offers.map(function(e){return e.id;})[0];
-              supc = offers.map(function(e){return e.supcs;})[0];
-            }
-            return (
-              '<li class="OffersContentBoxLi ' + categoryName + '"' +
-                           'data-pogId="' + pogId + '"' +
-                           'data-catalogid="' + catalogId + '"' +
-                           'data-supc="' + supc + '"' +
-                           'data-vendorcode="' + vendorCode + '"' + '>' +
-                           set_SoldOUt_ModuleX99(item) +
-                           set_OffersContTxt_Wrapper() +
-                            set_aLink_ModuleX99(item) +
-                              set_OfferImg_blazy(item) +
-                              set_OffersContTxt_Wrapper() +
-                                set_Discount_ModuleX99(item) +
-                                set_OfferTitle_csv(item) +
-                                set_StarRatings_and_Reviews_ModuleX99(item) +
-                                set_Price_and_Tagline_ModuleX99(item) +
-                              setClosing_OffersContTxt_Wrapper() +
-                            setClosing_aLink_ModuleX99(item) +
-                          setClosing_OffersContTxt_Wrapper() +
-                           '</li>'
-            );
-        }).join('');
-        var unit_htmlContent = li_htmlContent;
-        finalHTMLContent[index].push(unit_htmlContent);
-    });
-
-    //setting the html to dom
-
-    fastdom.mutate(function() {
-      for(var i=0; i<finalHTMLContent.length; i++){
-          var wrapper_dom = document.getElementById(priceRange_domID[i][2]);
-          wrapper_dom.innerHTML = finalHTMLContent[i].join('');
-      }
-      //init blazy
-      var blazy = new Blazy({
-        loadInvisible: true
-      });
-    });
-  };
-  */
-
 
   var dom_categoryNames_arr = Query_dom_categoryNames.dom_categoryNames_arr();
 
@@ -900,7 +495,7 @@ var SetHTML = (function(){
         opts = {};
     }
     var htmlContent_multi_arr = opts.htmlContent_multi_arr ? opts.htmlContent_multi_arr : default_setToEachID_opts.htmlContent_multi_arr;
-    console.log('init_setToEachID running!');
+    //console.log('init_setToEachID running!');
     for(var i=0; i< dom_categoryNames_arr.length; i++){
       finalHTMLContent.push([]);
     }
@@ -948,15 +543,28 @@ var SetHTML = (function(){
               catalogId = offers.map(function(e){return e.id;})[0];
               supc = offers.map(function(e){return e.supcs;})[0];
             }
-            //templating conditions
+            //templateX999 template conditions
 
-            /// * * * DOD templates * * * ///
+            /// +++++ footerBannerX99 +++++ ///
+            //if footerBannerX99 ~ ALWAYS defined
+            if(categoryName.indexOf('footerBannerX99') > -1){
+              return (
+                '<li class="footerBannerX99_unit responsiveFontSizeX99 ">' +
+                  setHTML_offerUnit_href(item) +
+                    setHTML_offerUnit_imgWrapOnly(item) +
+                  setHTML_offerUnit_href_closing(item) +
+                '</li>'
+              );
+            }
+            /// +++++ /footerBannerX99 +++++ ///
 
-            //if superDeal
+            ///  +++++ DOD templates +++++ ///
             /*
+            //if superDeal
+
             if(categoryName.indexOf('superDod') > -1){
               return (
-                '<div class="dodSuperDeal_unit offer_x99Unit hoverStyleX99 ' + categoryName + '"' +
+                '<div class="dodSuperDeal_unit responsiveFontSizeX99 hoverStyleX99 ' + categoryName + '"' +
                               '>' +
                               set_SoldOUt_ModuleX99(item) +
                                 setHTML_offerUnit_href(item) +
@@ -980,19 +588,20 @@ var SetHTML = (function(){
             //if reason
             else if(categoryName.indexOf('reason') > -1){
               return (
-                '<li class="reason_unit offer_x99Unit ' + categoryName + '">' +
+                '<li class="reason_unit responsiveFontSizeX99 ' + categoryName + '">' +
                   setHTML_reasonsToBuy_tagline(item) +
                 '</li>'
               );
             }
             */
-            /// * * * /DOD templates * * * ///
+            /// +++++ /DOD templates +++++ ///
 
-            /// * * * Computer Gaming Sale * * * ///
+          /// +++++ Computer Gaming Sale +++++ ///
+
             //if liveTimerOffer
-            if(categoryName.indexOf('liveTimerOffer') > -1) {
+             else if(categoryName.indexOf('liveTimerOffer') > -1) {
               return (
-                '<div class="liveTimerOffers offer_x99Unit  ' + categoryName + '"' +
+                '<div class="liveTimerOffers responsiveFontSizeX99 ' + categoryName + '"' +
                              '>' +
                               set_SoldOUt_ModuleX99(item) +
                               setHTML_offerUnit_href(item) +
@@ -1010,7 +619,7 @@ var SetHTML = (function(){
             //if upcoming
             else if(categoryName.indexOf('upcomingOffer') > -1){
               return (
-                '<div class="offerUnit_offerWrap offer_x99Unit  ' + categoryName + '"' +
+                '<div class="offerUnit_offerWrap responsiveFontSizeX99 ' + categoryName + '"' +
                              '>' +
                                 setHTML_offerUnit_imgWrap_sdPlusInc_rel(item) +
                                 setHTML_offerUnit_nonImgContWrap() +
@@ -1023,7 +632,7 @@ var SetHTML = (function(){
             //if featureDeals
             else if(categoryName.indexOf('featureDeals') > -1) {
               return (
-                '<div class="liveTimerOffers offer_x99Unit  ' + categoryName + '"' +
+                '<div class="liveTimerOffers responsiveFontSizeX99 ' + categoryName + '"' +
                             '>' +
                               set_SoldOUt_ModuleX99(item) +
                               setHTML_offerUnit_href(item) +
@@ -1041,7 +650,7 @@ var SetHTML = (function(){
             //if bestOfBrands
             else if(categoryName.indexOf('bestOfBrands') > -1) {
               return (
-                '<li class="offerUnits_4_2 offerUnit_normalOffer offer_x99Unit offers_WrapperX99 hoverStyleX99 ' + categoryName + '"' +'>' +
+                '<li class="offerUnits_4_2 offerUnit_normalOffer hoverStyleX99 responsiveFontSizeX99 ' + categoryName + '"' +'>' +
                               set_SoldOUt_ModuleX99(item) +
                                 setHTML_offerUnit_href(item) +
                                   setHTML_offerUnit_href_afterWrap()+
@@ -1054,15 +663,11 @@ var SetHTML = (function(){
                              '</li>'
               );
             }
-
-            /// * * * Computer Gaming Sale * * * ///
-
-            /// * * * quickLinks * * * ///
-            /*
+            /// +++++ quickLinks +++++ ///
             //if default quickLinks
             else if(categoryName.indexOf('quickLinks') > -1){
               return (
-                '<li class="offerUnits_4_2 offerUnit_normalOffer offer_x99Unit offers_WrapperX99 hoverStyleX99 ' + categoryName + '"' +
+                '<li class="offerUnits_4_2 offerUnit_normalOffer responsiveFontSizeX99 hoverStyleX99 ' + categoryName + '"' +
                              '>' +
                                 setHTML_offerUnit_href(item) +
                                           setHTML_QuickLinkOffers_tagline(item)+
@@ -1070,11 +675,11 @@ var SetHTML = (function(){
                              '</li>'
               );
             }
-            */
+
             //if image quickLinks
             else if(categoryName.indexOf('quickLinksImages') > -1){
               return (
-                '<li class="offerUnits_4_2 offerUnit_normalOffer offer_x99Unit offers_WrapperX99 hoverStyleX99 ' + categoryName + '"' +
+                '<li class="offerUnits_4_2 offerUnit_normalOffer responsiveFontSizeX99 hoverStyleX99 ' + categoryName + '"' +
                              '>' +
                                 setHTML_offerUnit_href(item) +
                                           setHTML_offerUnit_imgWrap_sdPlusInc_rel(item) +
@@ -1082,27 +687,15 @@ var SetHTML = (function(){
                              '</li>'
               );
             }
+            /// +++++ /quickLinks +++++ ///
 
-            /// * * * /quickLinks * * * ///
-
-            /// * * * footerBannerX99 * * * ///
-            //if footerBannerX99
-            else if(categoryName.indexOf('footerBannerX99') > -1){
-              return (
-                '<li class="footerBannerX99_unit ">' +
-                  setHTML_offerUnit_href(item) +
-                    setHTML_offerUnit_imgWrapOnly(item) +
-                  setHTML_offerUnit_href_closing(item) +
-                '</li>'
-              );
-            }
-            /// * * * /footerBannerX99 * * * ///
+        /// +++++ Computer Gaming Sale +++++ ///
 
 
             //if vwAll
             else if(categoryName.indexOf('vwAll') > -1){
               return (
-                '<div class="offer_x99Unit offerUnit_vwAll ' + categoryName + '"' +'>' +
+                '<div class="offerUnit_vwAll responsiveFontSizeX99 ' + categoryName + '"' +'>' +
                                 setHTML_offerUnit_href(item) +
                                   "View All" +
                                 setHTML_offerUnit_href_closing(item) +
@@ -1111,11 +704,11 @@ var SetHTML = (function(){
             }
             // /if vwAll
 
-            /// * * * default li offer unit * * * ///
+            /// +++++ default li offer unit +++++ ///
             //if not follow default template
             else {
               return (
-                '<li class="offerUnits_4_2 offerUnit_normalOffer offer_x99Unit offers_WrapperX99 hoverStyleX99 ' + categoryName + '"' +
+                '<li class="offerUnits_4_2 offerUnit_normalOffer responsiveFontSizeX99 hoverStyleX99 ' + categoryName + '"' +
                               '>' +
                               set_SoldOUt_ModuleX99(item) +
                                 setHTML_offerUnit_href(item) +
@@ -1134,7 +727,7 @@ var SetHTML = (function(){
                              '</li>'
               );
             }
-            /// * * * /default li offer unit * * * ///
+            /// +++++ /default li offer unit +++++ ///
 
         }).join('');
         var unit_htmlContent = offer_htmlContent;
@@ -1448,67 +1041,6 @@ var SetHTML = (function(){
    //end of rest of utilities
 })();
 
-
-//socialShareModule
-/// * * * socialShareX_Module * * * ///
-var socialShareX_Module = (function() {
-  var mainWrapperX99 = document.getElementsByClassName('shareX99_wrapper')[0];
-  var ele = mainWrapperX99.querySelectorAll('.shareIconX_icoWrapper li');
-  var whatsappX = mainWrapperX99.querySelector('li.whatsappX');
-    //check if mobile and show/hide whatsapp
-    var mobileSite_TrueX999_var = MobPlatform_M.mobileSite_TrueX999();
-    //console.log('mobileSite_running: ' + mobileSite_TrueX999_var);
-    if(mobileSite_TrueX999_var){
-      console.log('mobile site running, show whatsapp');
-      whatsappX.style.display = 'block';
-      }
-    else {
-      whatsappX.style.display = 'none';
-    }
-    //var links
-    var currURLX = window.location.href;
-    var preURLs = {
-        'facebookX': 'https://www.facebook.com/sharer.php?u=',
-        'twitterX': 'https://twitter.com/intent/tweet?url=',
-        'googleplusX': 'https://plus.google.com/share?url=',
-        'pinterestX': 'https://pinterest.com/pin/create/bookmarklet/?url=',
-        'whatsappX': 'whatsapp://send?text='
-    };
-    var finalURL = '';
-    //click events
-    for(var i=0; i< ele.length; i++){
-      ele[i].addEventListener('click', function(e) {
-        e.preventDefault();
-        var finalURL = '',
-            ele = e.target,
-            twHastag = ele.getAttribute('data-hashtag');
-        if (ele.classList.contains('facebookX')) {
-            finalURL = preURLs.facebookX + currURLX;
-        } else if (ele.classList.contains('twitterX')) {
-            if (twHastag) {
-                finalURL = preURLs.twitterX + currURLX + '&hashtags=' + twHastag;
-            } else {
-                finalURL = preURLs.twitterX + currURLX;
-            }
-        } else if (ele.classList.contains('googleplusX')) {
-            finalURL = preURLs.googleplusX + currURLX;
-        } else if (ele.classList.contains('pinterestX')) {
-            finalURL = preURLs.pinterestX + currURLX;
-        }
-        else if (ele.classList.contains('whatsappX')) {
-            finalURL = preURLs.whatsappX + currURLX;
-        }
-        console.log('finalURL: ',finalURL);
-        var W_width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        var W_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-        window.open(finalURL, 'shareWindow', 'height=450, width=550, top=' + (W_height / 2 - 275) + ', left=' + (W_width / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
-    //end of click event
-    });
-    //end of for loop
-    }
-})();
-// end of socialShareX_Module
 
 /* exposing to Global for inPage use */
 window.AjaxPageApp = AjaxPageApp;
